@@ -563,15 +563,27 @@ public struct MessageParameter: Encodable {
    }
    
    public struct CacheControl: Codable, Equatable {
-      
+
       let type: CacheControlType
-      
-      public init(type: CacheControlType) {
+
+      /// Time-to-live for the cache. Defaults to 5 minutes if not specified.
+      let ttl: TTL?
+
+      public init(type: CacheControlType, ttl: TTL? = nil) {
          self.type = type
+         self.ttl = ttl
       }
-      
+
       public enum CacheControlType: String, Codable {
          case ephemeral
+      }
+
+      /// Cache time-to-live options.
+      public enum TTL: String, Codable {
+         /// 5-minute cache duration (default).
+         case fiveMinutes = "5m"
+         /// 1-hour cache duration.
+         case oneHour = "1h"
       }
    }
    
